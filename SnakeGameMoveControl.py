@@ -1,3 +1,9 @@
+import turtle
+
+
+turtles = turtle.Screen()
+head = turtle.Turtle()
+
 # move control
 def goUp():
     if head.direction != "down":

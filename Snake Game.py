@@ -1,6 +1,7 @@
 import turtle
 import time
 import random
+import SnakeGameMoveControl
 
 delay = 0.1
 score = 0
@@ -42,44 +43,37 @@ pen.hideturtle()
 pen.goto(0,250)
 pen.write("Score : 0 High Score : 0", align="center", font=("candara",24,"bold"))
 
-# move control
+# Gameplay
+segments = []
+while True:
+    turtles.update()
+    if head.xcor() > 290 or head.xcor() < -290 or head.ycor() > 290 or head.ycor() < -290: # add a map size customized by player
+        time.sleep(1)
+        head.goto(0,0)
+        head.direction="Stop"
+        colors = random.choice(["red","blue","gree"])
+        shapes = random.choice(["square","circle"])
+        for segment in segments:
+            segment.goto(1000,1000)
+        segments.clear()
+        score = 0 # reset score
+        delay = 0.1 
+        pen.clear()
+        pen.write("Score : {} High Score : {} ".format(score,high_score),align="center", font=("candara", 24, "bold"))
+    
+    # ate food
+    if head.distance(food) < 20:
+        x = random.randint(-270,270) # map size here again
+        y = random.randint(-270,270)
+        food.goto(x,y)
 
-def goUp():
-    if head.direction != "down":
-        head.direction = "up"
+        #Adding segment
+        new_segment = turtle.Turtle()
+        new_segment.speed(0)
+        new_segment.shape("square")
+        new_segment.color("white")
+        new_segment.penup()
+        segments.append(new_segment)
+        
 
-def goDown():
-    if head.direction != "up":
-        head.direction = "down"
-
-
-def goRight():
-    if head.direction != "left":
-        head.direction = "right"
-
-def goLeft():
-    if head.direction != "right":
-        head.direction = "left"
-
-def move():
-    # y axis 
-    if head.direction == "up":
-        y = head.ycor()
-        head.sety(y+20)
-    if head.direction == "down":
-        y = head.ycor()
-        head.sety(y-20)
-    # x axis
-    if head.direction == "left":
-        x = head.xcor()
-        head.setx(x-20)
-    if head.direction == "right":
-        x = head.xcor()
-        head.setx(x+20)
- 
-turtles.listen()
-turtles.onkeypress(goUp,"w")
-turtles.onkeypress(goDown,"s")
-turtles.onkeypress(goRight,"d")
-turtles.onkeypress(goLeft,"a")
 
