@@ -159,5 +159,6 @@ while True:
             pen.clear()
             pen.write("Score : {} High Score : {} ".format(score, high_score), align="center", font=("candara", 24, "bold"))
     time.sleep(delay)
- 
+
+
 turtles.mainloop()
