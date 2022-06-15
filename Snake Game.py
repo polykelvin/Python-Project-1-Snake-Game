@@ -1,6 +1,4 @@
 import turtle
-
-import turtle
 import time
 import random
 
@@ -10,12 +8,12 @@ high_score = 0
 
 # creating window screen
 turtles = turtle.Screen()
-turtles.title("贪吃蛇")
+turtles.title("贪吃蛇 Snake Game")
 turtles.bgcolor("blue")
 
 # width and height
-turtle.setup(width=500, height=500)
-turtle.tracer()
+turtle.setup(width=600, height=600)
+turtle.tracer(0)
 
 # snake head
 head = turtle.Turtle()
@@ -44,4 +42,44 @@ pen.hideturtle()
 pen.goto(0,250)
 pen.write("Score : 0 High Score : 0", align="center", font=("candara",24,"bold"))
 
-turtle.done()
+# move control
+
+def goUp():
+    if head.direction != "down":
+        head.direction = "up"
+
+def goDown():
+    if head.direction != "up":
+        head.direction = "down"
+
+
+def goRight():
+    if head.direction != "left":
+        head.direction = "right"
+
+def goLeft():
+    if head.direction != "right":
+        head.direction = "left"
+
+def move():
+    # y axis 
+    if head.direction == "up":
+        y = head.ycor()
+        head.sety(y+20)
+    if head.direction == "down":
+        y = head.ycor()
+        head.sety(y-20)
+    # x axis
+    if head.direction == "left":
+        x = head.xcor()
+        head.setx(x-20)
+    if head.direction == "right":
+        x = head.xcor()
+        head.setx(x+20)
+ 
+turtles.listen()
+turtles.onkeypress(goUp,"w")
+turtles.onkeypress(goDown,"s")
+turtles.onkeypress(goRight,"d")
+turtles.onkeypress(goLeft,"a")
+
