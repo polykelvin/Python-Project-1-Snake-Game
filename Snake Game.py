@@ -8,13 +8,16 @@ score = 0
 high_score = 0
 score_announ = "Score : {} High Score : {} "
 
+widths = turtle.numinput("Width","What is the width of the map", default=600, minval=0)
+heights = turtle.numinput("Height","What is the height of the map",  default=600, minval=0)
+
 
 # Creating a window screen
 SnakeGame = turtle.Screen()
 SnakeGame.title("Snake Game")
 SnakeGame.bgcolor("blue")
 # the width and height can be put as user's choice
-SnakeGame.setup(width=600, height=600)
+SnakeGame.setup(width=widths, height=heights)
 SnakeGame.tracer(0)
 
 # head of the snake
@@ -42,8 +45,7 @@ pen.color("white")
 pen.penup()
 pen.hideturtle()
 pen.goto(0, 250)
-pen.write("Score : 0 High Score : 0", align="center",
-		font=("candara", 24, "bold"))
+pen.write("Score : 0 High Score : 0", align="center",font=("candara", 24, "bold"))
 
 
 
@@ -52,21 +54,17 @@ def goUp():
 	if head.direction != "down":
 		head.direction = "up"
 
-
 def goDown():
 	if head.direction != "up":
 		head.direction = "down"
-
 
 def goLeft():
 	if head.direction != "right":
 		head.direction = "left"
 
-
 def goRight():
 	if head.direction != "left":
 		head.direction = "right"
-
 
 def move():
 	if head.direction == "up":
@@ -86,9 +84,13 @@ def move():
 		
 SnakeGame.listen()
 SnakeGame.onkeypress(goUp, "w")
+SnakeGame.onkeypress(goUp, "Up")
 SnakeGame.onkeypress(goDown, "s")
+SnakeGame.onkeypress(goDown, "Down")
 SnakeGame.onkeypress(goLeft, "a")
+SnakeGame.onkeypress(goLeft, "Left")
 SnakeGame.onkeypress(goRight, "d")
+SnakeGame.onkeypress(goRight, "Right")
 
 segments = []
 
@@ -97,23 +99,25 @@ segments = []
 # Main Gameplay
 while True:
 	SnakeGame.update()
-	if head.xcor() > 290 or head.xcor() < -290 or head.ycor() > 290 or head.ycor() < -290:
+	if head.xcor() > (widths/2-10) or head.xcor() < (-abs(widths)/2-10) or head.ycor() > (heights/2-10) or head.ycor() < (-abs(heights)/2-10):
 		time.sleep(1)
 		head.goto(0, 0)
 		head.direction = "Stop"
 		colors = random.choice(['red', 'blue', 'green'])
 		shapes = random.choice(['square', 'circle'])
+        
 		for segment in segments:
 			segment.goto(1000, 1000)
+
 		segments.clear()
 		score = 0
 		delay = 0.1
 		pen.clear()
-		pen.write(score_announ.format(
-			score, high_score), align="center", font=("candara", 24, "bold"))
+		pen.write(score_announ.format(score, high_score), align="center", font=("candara", 24, "bold"))
+
 	if head.distance(food) < 20:
-		x = random.randint(-270, 270)
-		y = random.randint(-270, 270)
+		x = random.randint(((-abs(widths)/2)-30), ((widths/2)-30))
+		y = random.randint(((-abs(heights)/2)-30), ((heights/2)-30))
 		food.goto(x, y)
 
 		# Adding segment
@@ -125,11 +129,15 @@ while True:
 		segments.append(new_segment)
 		delay -= 0.001
 		score += 10
+
+        # update highest score
 		if score > high_score:
 			high_score = score
+
+        
 		pen.clear()
-		pen.write(score_announ.format(
-			score, high_score), align="center", font=("candara", 24, "bold"))
+		pen.write(score_announ.format(score, high_score), align="center", font=("candara", 24, "bold"))
+
 	# Checking for head collisions with body segments
 	for index in range(len(segments)-1, 0, -1):
 		x = segments[index-1].xcor()
@@ -139,23 +147,27 @@ while True:
 		x = head.xcor()
 		y = head.ycor()
 		segments[0].goto(x, y)
+
 	move()
+
 	for segment in segments:
 		if segment.distance(head) < 20:
 			time.sleep(1)
 			head.goto(0, 0)
-			head.direction = "stop"
+			head.direction = "Stop"
 			colors = random.choice(['red', 'blue', 'green'])
 			shapes = random.choice(['square', 'circle'])
+
 			for segment in segments:
-				segment.goto(1000, 1000)
+				segment.goto((widths+1000), (heights+1000)) # still don't get its function, but replace with varaibles
+
 			segment.clear()
 
 			score = 0
 			delay = 0.1
 			pen.clear()
-			pen.write(score_announ.format(
-				score, high_score), align="center", font=("candara", 24, "bold"))
+			pen.write(score_announ.format(score, high_score), align="center", font=("candara", 24, "bold"))
+
 	time.sleep(delay)
 
 SnakeGame.mainloop()
