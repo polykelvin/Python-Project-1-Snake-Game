@@ -1,6 +1,5 @@
 import turtle
 
-
 turtles = turtle.Screen()
 head = turtle.Turtle()
 
