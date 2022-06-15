@@ -5,6 +5,7 @@ import random
 delay = 0.1
 score = 0
 high_score = 0
+score_text = "Score : {} High Score : {} "
 
 # creating window screen
 turtles = turtle.Screen()
@@ -105,7 +106,7 @@ while True:
         score = 0
         delay = 0.1
         pen.clear()
-        pen.write("Score : {} High Score : {} ".format(score, high_score), align="center", font=("candara", 24, "bold"))
+        pen.write(score_text.format(score, high_score), align="center", font=("candara", 24, "bold"))
 
     if head.distance(food) < 20:
         x = random.randint(-270, 270)
@@ -127,7 +128,7 @@ while True:
             high_score = score
 
         pen.clear()
-        pen.write("Score : {} High Score : {} ".format(score, high_score), align="center", font=("candara", 24, "bold"))
+        pen.write(score_text.format(score, high_score), align="center", font=("candara", 24, "bold"))
     
     # Checking for head collisions with body segments
     for index in range(len(segments)-1, 0, -1):
@@ -157,7 +158,7 @@ while True:
             delay = 0.1
 
             pen.clear()
-            pen.write("Score : {} High Score : {} ".format(score, high_score), align="center", font=("candara", 24, "bold"))
+            pen.write(score_text.format(score, high_score), align="center", font=("candara", 24, "bold"))
     time.sleep(delay)
 
 
