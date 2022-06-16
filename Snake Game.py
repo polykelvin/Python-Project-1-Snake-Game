@@ -119,8 +119,8 @@ while True:
         pen.write(score_announcement.format(score, high_score), align="center", font=("candara", 24, "bold"))
 
     if head.distance(food) < 20:
-        x = random.randint(int(((-abs(widths) / 2) - 30)), int(((widths / 2) - 30)))
-        y = random.randint(int(((-abs(heights) / 2) - 30)), int(((heights / 2) - 30)))
+        x = random.randint(int(((-abs(widths) / 2) + 30)), int(((widths / 2) - 30)))
+        y = random.randint(int(((-abs(heights) / 2) + 30)), int(((heights / 2) - 30)))
         food.goto(x, y)
 
         # Adding segment
