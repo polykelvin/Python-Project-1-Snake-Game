@@ -6,10 +6,18 @@ import random
 delay = 0.1
 score = 0
 high_score = 0
+game = True
 score_announcement = "Score : {} High Score : {} "
 
 widths = turtle.numinput("Width", "What is the width of the map", default=600, minval=0)
 heights = turtle.numinput("Height", "What is the height of the map", default=600, minval=0)
+
+if widths != type(10) or heights != type(10):
+    for i in range(10):
+        print("Input Missing")
+        i += 1
+    turtle.bye()
+    exit()
 
 # Creating a window screen
 SnakeGame = turtle.Screen()
@@ -118,6 +126,7 @@ while True:
         pen.clear()
         pen.write(score_announcement.format(score, high_score), align="center", font=("candara", 24, "bold"))
 
+    # Checking for food eating
     if head.distance(food) < 20:
         x = random.randint(int(((-abs(widths) / 2) + 30)), int(((widths / 2) - 30)))
         y = random.randint(int(((-abs(heights) / 2) + 30)), int(((heights / 2) - 30)))
@@ -152,11 +161,16 @@ while True:
 
     for segment in segments:
         if segment.distance(head) < 20:
+            pen.clear()
+            pen.goto(0, 0)
+            pen.write("Game Over", align="center", font=("candara", 50, "bold"))
+            pen.goto(0, 250)
             time.sleep(1)
             head.goto(0, 0)
             head.direction = "Stop"
             colors = random.choice(['red', 'blue', 'green'])
             shapes = random.choice(['square', 'circle'])
+            game = False
 
             for segment in segments:
                 segment.goto(1000, 1000)  # still don't get its function, but replace with variables
@@ -168,6 +182,23 @@ while True:
             pen.clear()
             pen.write(score_announcement.format(score, high_score), align="center", font=("candara", 24, "bold"))
 
-    time.sleep(delay)
+    if game == False:
+        answer = turtle.textinput(title="Yes or No ... ?",
+                                  prompt="Hypothetically if I were to ask you out, would you go out with me?")
+        answer = str(answer.lower())
+        if answer == "yes":
+            print("yes!")
+            pen.clear()
+            pen.write("Please add my discord PolyKelvin#8902 :)")
+            time.sleep(2)
+            pen.clear()
+            game = True
+        else:
+            print("No")
+            pen.clear()
+            pen.write("Nothing happen")
+            pen.clear()
+            game = True
 
+    time.sleep(delay)
 SnakeGame.mainloop()
