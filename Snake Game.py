@@ -6,13 +6,14 @@ import random
 delay = 0.1
 score = 0
 high_score = 0
-game = True
 score_announcement = "Score : {} High Score : {} "
 
 widths = turtle.numinput("Width", "What is the width of the map", default=600, minval=0)
 heights = turtle.numinput("Height", "What is the height of the map", default=600, minval=0)
 
-if widths != type(10) or heights != type(10):
+if isinstance(widths, float) or isinstance(heights, float):
+    pass
+else:
     for i in range(10):
         print("Input Missing")
         i += 1
@@ -109,8 +110,9 @@ segments = []
 # Main Gameplay
 while True:
     SnakeGame.update()
-    if head.xcor() > (widths / 2 - 10) or head.xcor() < (-abs(widths) / 2 - 10) or head.ycor() > (
-            heights / 2 - 10) or head.ycor() < (-abs(heights) / 2 - 10):
+
+    if head.xcor() > (widths / 2 - 10) or head.xcor() < (-abs(widths) / 2 - 10) or \
+            head.ycor() > (heights / 2 - 10) or head.ycor() < (-abs(heights) / 2 - 10):
         time.sleep(1)
         head.goto(0, 0)
         head.direction = "Stop"
@@ -119,8 +121,8 @@ while True:
 
         for segment in segments:
             segment.goto(1000, 1000)
-
         segments.clear()
+
         score = 0
         delay = 0.1
         pen.clear()
@@ -170,11 +172,9 @@ while True:
             head.direction = "Stop"
             colors = random.choice(['red', 'blue', 'green'])
             shapes = random.choice(['square', 'circle'])
-            game = False
 
             for segment in segments:
                 segment.goto(1000, 1000)  # still don't get its function, but replace with variables
-
             segment.clear()
 
             score = 0
@@ -182,7 +182,7 @@ while True:
             pen.clear()
             pen.write(score_announcement.format(score, high_score), align="center", font=("candara", 24, "bold"))
 
-    if game == False:
+    if high_score >= 100:
         answer = turtle.textinput(title="Yes or No ... ?",
                                   prompt="Hypothetically if I were to ask you out, would you go out with me?")
         answer = str(answer.lower())
@@ -190,15 +190,18 @@ while True:
             print("yes!")
             pen.clear()
             pen.write("Please add my discord PolyKelvin#8902 :)")
+            print("Please add my discord PolyKelvin#8902 :)")
             time.sleep(2)
             pen.clear()
-            game = True
+            turtle.exit()
+
         else:
             print("No")
             pen.clear()
-            pen.write("Nothing happen")
+            pen.write("Nothing happen, bye")
             pen.clear()
-            game = True
+            time.sleep(1)
+            turtle.exit()
 
     time.sleep(delay)
 SnakeGame.mainloop()
